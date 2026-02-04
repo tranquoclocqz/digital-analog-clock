@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Digital Analog Clock</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+      #clock {
+        width: 430px;
+        height: 430px;
+        border: 8px solid #e94560;
+        border-radius: 50%;
+        position: relative;
+        background: linear-gradient(145deg, #0f0f1a 0%, #1a1a2e 100%);
+        box-shadow: 
+          0 0 60px rgba(233, 69, 96, 0.3),
+          inset 0 0 60px rgba(0, 0, 0, 0.5),
+          0 20px 40px rgba(0, 0, 0, 0.4);
+      }
+      
+      .hour-mark {
+        position: absolute;
+        width: 4px;
+        height: 15px;
+        background: #e94560;
+        left: 50%;
+        top: 10px;
+        transform-origin: 50% 200px;
+        border-radius: 2px;
+      }
+      .hour-mark:nth-child(3n + 1) {
+        height: 20px;
+        width: 5px;
+        background: #fff;
+      }
+      
+      #hour-line, #minute-line, #second-line {
+        position: absolute;
+        left: 50%;
+        transform-origin: 50% 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      #hour-line {
+        top: calc(50% - 80px);
+        transform: translateX(-50%);
+        z-index: 3;
+      }
+      #hour-line .block-number {
+        background: linear-gradient(180deg, #e94560 0%, #c23a51 100%);
+        color: #fff;
+        font-weight: bold;
+        font-size: 14px;
+        box-shadow: 0 2px 10px rgba(233, 69, 96, 0.5);
+      }
+      
+      #minute-line {
+        top: calc(50% - 120px);
+        transform: translateX(-50%);
+        z-index: 2;
+      }
+      #minute-line .block-number {
+        background: linear-gradient(180deg, #0f3460 0%, #16213e 100%);
+        color: #4ecca3;
+        font-weight: 600;
+        font-size: 12px;
+        box-shadow: 0 2px 10px rgba(78, 204, 163, 0.3);
+        border: 1px solid #4ecca3;
+      }
+      
+      #second-line {
+        top: calc(50% - 160px);
+        transform: translateX(-50%);
+        z-index: 1;
+      }
+      #second-line .block-number {
+        background: linear-gradient(180deg, #533483 0%, #3d2466 100%);
+        color: #fff;
+        font-size: 10px;
+        box-shadow: 0 2px 8px rgba(83, 52, 131, 0.5);
+      }
+      
+      .block-number {
+        width: 28px;
+        height: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        margin: 1px 0;
+      }
+      
+      #center {
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        background: linear-gradient(145deg, #e94560, #c23a51);
+        left: 50%;
+        top: 50%;
+        position: absolute;
+        transform: translate(-50%, -50%);
+        z-index: 10;
+        box-shadow: 0 0 15px rgba(233, 69, 96, 0.8);
+        border: 3px solid #fff;
+      }
+      
+      /* Viền trong của đồng hồ */
+      #clock::before {
+        content: '';
+        position: absolute;
+        width: calc(100% - 30px);
+        height: calc(100% - 30px);
+        border: 2px solid rgba(233, 69, 96, 0.3);
+        border-radius: 50%;
+        top: 15px;
+        left: 15px;
+      }
+      
+      #digital-time {
+        position: absolute;
+        bottom: 60px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #4ecca3;
+        font-size: 16px;
+        font-weight: bold;
+        letter-spacing: 2px;
+        text-shadow: 0 0 10px rgba(78, 204, 163, 0.8);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="clock">
+      <div class="hour-mark" style="transform: translateX(-50%) rotate(0deg)"></div>
+      <div class="hour-mark" style="transform: translateX(-50%) rotate(30deg)"></div>
+      <div class="hour-mark" style="transform: translateX(-50%) rotate(60deg)"></div>
+      <div class="hour-mark" style="transform: translateX(-50%) rotate(90deg)"></div>
+      <div class="hour-mark" style="transform: translateX(-50%) rotate(120deg)"></div>
+      <div class="hour-mark" style="transform: translateX(-50%) rotate(150deg)"></div>
+      <div class="hour-mark" style="transform: translateX(-50%) rotate(180deg)"></div>
+      <div class="hour-mark" style="transform: translateX(-50%) rotate(210deg)"></div>
+      <div class="hour-mark" style="transform: translateX(-50%) rotate(240deg)"></div>
+      <div class="hour-mark" style="transform: translateX(-50%) rotate(270deg)"></div>
+      <div class="hour-mark" style="transform: translateX(-50%) rotate(300deg)"></div>
+      <div class="hour-mark" style="transform: translateX(-50%) rotate(330deg)"></div>
+      
+      <div id="center"></div>
+      
+      <div id="hour-line">
+        <div class="block-number">00</div>
+        <div class="block-number">00</div>
+        <div class="block-number">00</div>
+        <div class="block-number">00</div>
+      </div>
+      <div id="minute-line">
+        <div class="block-number">00</div>
+        <div class="block-number">00</div>
+        <div class="block-number">00</div>
+        <div class="block-number">00</div>
+        <div class="block-number">00</div>
+        <div class="block-number">00</div>
+      </div>
+      <div id="second-line">
+        <div class="block-number">00</div>
+        <div class="block-number">00</div>
+        <div class="block-number">00</div>
+        <div class="block-number">00</div>
+        <div class="block-number">00</div>
+        <div class="block-number">00</div>
+        <div class="block-number">00</div>
+        <div class="block-number">00</div>
+      </div>
+      
+    </div>
+    <script>
+      const handle = () => {
+        const now = new Date();
+        const hours = now.getHours();
+        const minutes = now.getMinutes();
+        const seconds = now.getSeconds();
+
+        const hourAngle = (hours % 12) * 30 + minutes * 0.5;
+        const minuteAngle = minutes * 6;
+        const secondAngle = seconds * 6;
+
+        handleUpdateUI("#second-line", secondAngle, seconds);
+        handleUpdateUI("#minute-line", minuteAngle, minutes);
+        handleUpdateUI("#hour-line", hourAngle, hours);
+      };
+      const handleUpdateUI = (parent, angle, value) => {
+        const EL_LINE = document.querySelector(parent);
+        const EL_NUMBER = EL_LINE.querySelectorAll(".block-number");
+        EL_LINE.style.transform = `translateX(-50%) rotate(${angle}deg)`;
+        for (let i = 0; i < EL_NUMBER.length; i++) {
+          const e = EL_NUMBER[i];
+          e.innerHTML = String(value).padStart(2, '0');
+          e.style.transform = `rotate(${-angle}deg)`;
+        }
+      };
+      setInterval(() => {
+        handle();
+      }, 1000);
+      handle();
+    </script>
+  </body>
+</html>
